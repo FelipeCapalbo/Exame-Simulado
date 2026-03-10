@@ -1,0 +1,177 @@
+[
+  {
+    "text": "Which path would you take to access the table configuration page from a form?",
+    "options": [
+      "The Form Context menu > View > Show Table",
+      "The Form Context menu > View > Table",
+      "The Form Context menu > Configure > Dictionary",
+      "The Form Context menu > Configure > Table"
+    ],
+    "corrects": [3]
+  },
+  {
+    "text": "What table acts as a staging area for records imported from a data source?",
+    "options": [
+      "staging table",
+      "temp table",
+      "transform table",
+      "import set row table"
+    ],
+    "corrects": [3]
+  },
+  {
+    "text": "How can an administrator modify the layout of a form using Table Builder?",
+    "options": [
+      "By configuring form sections",
+      "By changing the database schema",
+      "By editing system scripts",
+      "By altering the page header theme"
+    ],
+    "corrects": [0]
+  },
+  {
+    "text": "What is the role of form annotations within Table Builder?",
+    "options": [
+      "To create new form views",
+      "To provide additional information on each field",
+      "To rearrange fields in a form",
+      "To add visual appeal with colors in the designer"
+    ],
+    "corrects": [1]
+  },
+  {
+    "text": "Which metric in the Security Center measures the level of instance hardening?",
+    "options": [
+      "Compliance score",
+      "Security scanner",
+      "Monitoring score",
+      "Configuration score"
+    ],
+    "corrects": [0]
+  },
+  {
+    "text": "Which roles are required to configure the form layout using Table Builder? (Select two)",
+    "options": [
+      "read_only_user",
+      "it_support_specialist",
+      "app_engine_admin",
+      "admin",
+      "personalize_form"
+    ],
+    "corrects": [3, 4]
+  },
+  {
+    "text": "What action can be performed by selecting the Additional actions menu in Table Builder?",
+    "options": [
+      "Schedule a job",
+      "Duplicate the selected form view",
+      "Add a new module",
+      "Create a database index"
+    ],
+    "corrects": [1]
+  },
+  {
+    "text": "What is the primary purpose of Form Builder in the Now Platform?",
+    "options": [
+      "To create new tables within the platform",
+      "To generate analytical reports from data tables",
+      "To configure system settings and permissions",
+      "To edit forms used for populating records"
+    ],
+    "corrects": [3]
+  },
+  {
+    "text": "Which components are the customer’s responsibility according to the Shared Responsibility Model? (Select two)",
+    "options": [
+      "Infrastructure management",
+      "Authentication and authorization",
+      "Media disposal and destruction",
+      "Data encryption at rest",
+      "Backup and restore"
+    ],
+    "corrects": [1, 3]
+  },
+  {
+    "text": "Which kind of table has a name that starts with this prefix x_ ?",
+    "options": [
+      "Scoped application table",
+      "Excluded table",
+      "Explanation table",
+      "System table"
+    ],
+    "corrects": [0]
+  },
+  {
+    "text": "What tool allows you to drag and drop to specify links between source fields on an import set table and destination fields on any ServiceNow table?",
+    "options": [
+      "Mapping assist utility",
+      "import workspace",
+      "data source map",
+      "transform designer",
+      "import designer",
+      "transform dashboard"
+    ],
+    "corrects": [0]
+  },
+  {
+    "text": "An Administrator wants to review all the users having privileged access to identify and then mitigate related access risks. Which Security Center feature can help fulfill this?",
+    "options": [
+      "Security posture console",
+      "Security hardening",
+      "Security scanner",
+      "Customer actions"
+    ],
+    "corrects": [0]
+  },
+  {
+    "text": "An administrator needs to quickly verify the current ServiceNow release version (e.g., Zurich) running on their instance. If they do not want to navigate through the menus, what command can be typed directly into the Filter Navigator to display this information?",
+    "options": [
+      "version.do",
+      "system.upgraded",
+      "stats.do",
+      "release.config"
+    ],
+    "corrects": [2]
+  },
+  {
+    "text": "Using the module System Properties > My Company, what branding options are available?",
+    "options": [
+      "banner image, banner text, colour scheme",
+      "company name, company logo",
+      "banner image, banner text",
+      "company name, company logo, colour scheme"
+    ],
+    "corrects": [2]
+  },
+  {
+    "text": "Which Security Center feature helps resolve platform related security issues and misconfigurations?",
+    "options": [
+      "Best practices",
+      "Customer actions",
+      "Security hardening",
+      "Security scanner"
+    ],
+    "corrects": [3]
+  },
+  {
+    "text": "Which options are available in the Data Visualization configuration panel, for how the data will be presented? (Choose two)",
+    "options": [
+      "Time maps",
+      "Data sources",
+      "Configuration items",
+      "Chart mapping",
+      "Metric"
+    ],
+    "corrects": [1, 4]
+  },
+  {
+    "text": "A Security Administrator wants to grant a user the ability to monitor security metrics and review hardening compliance scores without giving them full system administrator privileges. Which roles would allow the user to view the Security Center? (Choose two)",
+    "options": [
+      "admin",
+      "sn_vsc.security_center_viewer",
+      "itil_admin",
+      "security_dashboard_user"
+    ],
+    "corrects": [0, 1]
+  }
+]
