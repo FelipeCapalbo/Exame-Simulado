@@ -1,1 +1,321 @@
-aaaa
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Simulador de Questões</title>
+  <style>
+    .selected { border-color: #3b82f6 !important; background-color: #eff6ff !important; }
+    .is-correct { border-color: #22c55e !important; background-color: #f0fdf4 !important; }
+    .is-wrong { border-color: #ef4444 !important; background-color: #fef2f2 !important; }
+    .fade-in { animation: fadeIn 0.3s ease-in; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-4">
+
+  <div id="setupScreen" class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md border border-slate-100">
+    <h1 class="text-2xl font-black text-slate-800 mb-6 text-center uppercase">Exame Simulado</h1>
+
+    <div id="statusIndicator" class="mb-6 p-4 bg-blue-50 text-blue-700 rounded-2xl text-center text-sm font-bold">
+      Carregando questões...
+    </div>
+
+    <div id="configSection" class="hidden fade-in space-y-4">
+      <div class="bg-slate-100 p-4 rounded-2xl text-center">
+        <span id="qCount" class="text-2xl font-black text-slate-700">0</span>
+        <p class="text-xs font-bold text-slate-400 uppercase">Questões disponíveis</p>
+      </div>
+
+      <label for="qtyInput" class="block text-sm font-bold text-slate-500">
+        Quantidade de questões:
+      </label>
+
+      <input
+        type="number"
+        id="qtyInput"
+        value="5"
+        min="1"
+        class="w-full p-4 border-2 border-slate-200 rounded-2xl outline-none focus:border-blue-500 font-bold text-center"
+      >
+
+      <button
+        id="startBtn"
+        onclick="startExam()"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-black shadow-lg transition-transform active:scale-95"
+      >
+        GERAR EXAME
+      </button>
+    </div>
+  </div>
+
+  <div id="examScreen" class="hidden w-full max-w-2xl fade-in">
+    <div class="bg-white p-8 rounded-3xl shadow-xl border border-slate-100">
+      <div class="flex justify-between items-center mb-8 gap-4">
+        <span id="progressLabel" class="text-xs font-black text-slate-400 uppercase tracking-widest">
+          Questão 0/0
+        </span>
+
+        <div class="text-blue-600 font-bold bg-blue-50 px-4 py-1 rounded-full text-sm">
+          Acertos: <span id="hits">0</span>
+        </div>
+      </div>
+
+      <h2 id="questionBody" class="text-xl text-slate-800 font-bold mb-8 leading-relaxed"></h2>
+
+      <div id="optionsList" class="space-y-3"></div>
+
+      <div class="mt-10 flex flex-col items-center">
+        <button
+          id="actionBtn"
+          onclick="handleAction()"
+          class="w-full bg-slate-800 text-white py-4 rounded-2xl font-bold hover:bg-black transition-all shadow-md"
+        >
+          CHECAR RESPOSTA
+        </button>
+
+        <div id="feedback" class="mt-4 font-bold text-lg min-h-[1.5rem]"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let allQuestions = [];
+    let examList = [];
+    let currentPos = 0;
+    let score = 0;
+    let userSelections = new Set();
+    let isValidated = false;
+
+    async function loadDatabase() {
+      const statusIndicator = document.getElementById('statusIndicator');
+      const configSection = document.getElementById('configSection');
+      const qCount = document.getElementById('qCount');
+
+      try {
+        const response = await fetch('./questions.json');
+
+        if (!response.ok) {
+          throw new Error(`Erro HTTP: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data)) {
+          throw new Error('O arquivo JSON precisa conter um array de questões.');
+        }
+
+        allQuestions = data.filter(isValidQuestion);
+
+        if (allQuestions.length === 0) {
+          throw new Error('Nenhuma questão válida foi encontrada no arquivo.');
+        }
+
+        qCount.innerText = allQuestions.length;
+        statusIndicator.classList.add('hidden');
+        configSection.classList.remove('hidden');
+
+        const qtyInput = document.getElementById('qtyInput');
+        qtyInput.max = allQuestions.length;
+        qtyInput.value = Math.min(5, allQuestions.length);
+      } catch (error) {
+        console.error('Erro ao carregar as questões:', error);
+        statusIndicator.className = 'mb-6 p-4 bg-red-50 text-red-700 rounded-2xl text-center text-sm font-bold';
+        statusIndicator.innerText = 'Erro ao carregar questions.json. Verifique o arquivo e a estrutura.';
+      }
+    }
+
+    function isValidQuestion(question) {
+      return (
+        question &&
+        typeof question.text === 'string' &&
+        question.text.trim() !== '' &&
+        Array.isArray(question.options) &&
+        question.options.length >= 2 &&
+        Array.isArray(question.corrects) &&
+        question.corrects.length >= 1 &&
+        question.corrects.every(index =>
+          Number.isInteger(index) &&
+          index >= 0 &&
+          index < question.options.length
+        )
+      );
+    }
+
+    function shuffleArray(array) {
+      const copy = [...array];
+
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+
+      return copy;
+    }
+
+    function startExam() {
+      if (allQuestions.length === 0) {
+        alert('Nenhuma questão foi carregada.');
+        return;
+      }
+
+      const qtyInput = document.getElementById('qtyInput');
+      let qty = parseInt(qtyInput.value, 10);
+
+      if (isNaN(qty) || qty < 1) {
+        qty = 1;
+      }
+
+      qty = Math.min(qty, allQuestions.length);
+      qtyInput.value = qty;
+
+      examList = shuffleArray(allQuestions).slice(0, qty);
+      currentPos = 0;
+      score = 0;
+      userSelections.clear();
+      isValidated = false;
+
+      document.getElementById('hits').innerText = score;
+      document.getElementById('setupScreen').classList.add('hidden');
+      document.getElementById('examScreen').classList.remove('hidden');
+
+      renderCurrent();
+    }
+
+    function renderCurrent() {
+      isValidated = false;
+      userSelections.clear();
+
+      const q = examList[currentPos];
+      const progressLabel = document.getElementById('progressLabel');
+      const questionBody = document.getElementById('questionBody');
+      const feedback = document.getElementById('feedback');
+      const actionBtn = document.getElementById('actionBtn');
+      const optionsList = document.getElementById('optionsList');
+
+      progressLabel.innerText = `Questão ${currentPos + 1}/${examList.length}`;
+      questionBody.innerText = q.text;
+      feedback.innerText = '';
+      feedback.className = 'mt-4 font-bold text-lg min-h-[1.5rem]';
+
+      actionBtn.innerText = 'CHECAR RESPOSTA';
+      actionBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+      actionBtn.classList.add('bg-slate-800', 'hover:bg-black');
+
+      optionsList.innerHTML = '';
+
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'option-btn w-full p-5 text-left border-2 border-slate-100 rounded-2xl transition-all flex items-center bg-white';
+        btn.innerHTML = `
+          <div class="check-box w-6 h-6 border-2 border-slate-200 rounded mr-4 flex items-center justify-center text-xs font-bold shrink-0"></div>
+          <span>${opt}</span>
+        `;
+        btn.onclick = () => toggleOption(i, btn);
+        optionsList.appendChild(btn);
+      });
+    }
+
+    function toggleOption(index, element) {
+      if (isValidated) return;
+
+      const box = element.querySelector('.check-box');
+
+      if (userSelections.has(index)) {
+        userSelections.delete(index);
+        element.classList.remove('selected');
+        box.className = 'check-box w-6 h-6 border-2 border-slate-200 rounded mr-4 flex items-center justify-center text-xs font-bold shrink-0';
+        box.innerText = '';
+      } else {
+        userSelections.add(index);
+        element.classList.add('selected');
+        box.className = 'check-box w-6 h-6 border-2 border-blue-500 bg-blue-500 text-white rounded mr-4 flex items-center justify-center text-xs font-bold shrink-0';
+        box.innerText = '✓';
+      }
+    }
+
+    function handleAction() {
+      if (!isValidated) {
+        validate();
+      } else {
+        nextQuestion();
+      }
+    }
+
+    function validate() {
+      if (userSelections.size === 0) {
+        alert('Selecione pelo menos uma opção.');
+        return;
+      }
+
+      isValidated = true;
+
+      const q = examList[currentPos];
+      const allBtns = document.querySelectorAll('.option-btn');
+      const userArr = Array.from(userSelections).sort((a, b) => a - b);
+      const correctArr = [...q.corrects].sort((a, b) => a - b);
+      const isCorrect = JSON.stringify(userArr) === JSON.stringify(correctArr);
+
+      allBtns.forEach((btn, i) => {
+        const box = btn.querySelector('.check-box');
+        const isThisCorrect = q.corrects.includes(i);
+        const isThisSelected = userSelections.has(i);
+
+        btn.disabled = true;
+
+        if (isThisCorrect) {
+          btn.classList.add('is-correct');
+          box.className = 'check-box w-6 h-6 bg-green-500 text-white rounded mr-4 flex items-center justify-center text-xs font-bold shrink-0';
+          box.innerText = '✓';
+        }
+
+        if (isThisSelected && !isThisCorrect) {
+          btn.classList.add('is-wrong');
+          box.className = 'check-box w-6 h-6 bg-red-500 text-white rounded mr-4 flex items-center justify-center text-xs font-bold shrink-0';
+          box.innerText = '✕';
+        }
+      });
+
+      const feedback = document.getElementById('feedback');
+
+      if (isCorrect) {
+        score++;
+        document.getElementById('hits').innerText = score;
+        feedback.innerText = 'Correto! ✨';
+        feedback.className = 'mt-4 text-green-600 font-bold text-lg min-h-[1.5rem] fade-in';
+      } else {
+        feedback.innerText = 'Errado ❌';
+        feedback.className = 'mt-4 text-red-500 font-bold text-lg min-h-[1.5rem] fade-in';
+      }
+
+      const actionBtn = document.getElementById('actionBtn');
+      actionBtn.innerText = currentPos === examList.length - 1 ? 'VER RESULTADO' : 'PRÓXIMA QUESTÃO';
+      actionBtn.classList.remove('bg-slate-800', 'hover:bg-black');
+      actionBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+    }
+
+    function nextQuestion() {
+      currentPos++;
+
+      if (currentPos < examList.length) {
+        renderCurrent();
+        return;
+      }
+
+      const total = examList.length;
+      const percentage = Math.round((score / total) * 100);
+
+      alert(`Fim do simulado!\n\nVocê acertou ${score} de ${total} questões.\nAproveitamento: ${percentage}%`);
+      location.reload();
+    }
+
+    loadDatabase();
+  </script>
+</body>
+</html>
