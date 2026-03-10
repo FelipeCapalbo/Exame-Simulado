@@ -173,5 +173,329 @@
       "security_dashboard_user"
     ],
     "corrects": [0, 1]
+  },
+  {
+    "text": "Which path would you take to access the table configuration page from a form?",
+    "options": [
+      "The Form Context menu > View > Show Table",
+      "The Form Context menu > View > Table",
+      "The Form Context menu > Configure > Dictionary",
+      "The Form Context menu > Configure > Table"
+    ],
+    "corrects": [3]
+  },
+  {
+    "text": "What table acts as a staging area for records imported from a data source?",
+    "options": [
+      "staging table",
+      "temp table",
+      "transform table",
+      "import set row table"
+    ],
+    "corrects": [3]
+  },
+  {
+    "text": "How can an administrator modify the layout of a form using Table Builder?",
+    "options": [
+      "By configuring form sections",
+      "By changing the database schema",
+      "By editing system scripts",
+      "By altering the page header theme"
+    ],
+    "corrects": [0]
+  },
+  {
+    "text": "What is the role of form annotations within Table Builder?",
+    "options": [
+      "To create new form views",
+      "To provide additional information on each field",
+      "To rearrange fields in a form",
+      "To add visual appeal with colors in the designer"
+    ],
+    "corrects": [1]
+  },
+  {
+    "text": "Which metric in the Security Center measures the level of instance hardening?",
+    "options": [
+      "Compliance score",
+      "Security scanner",
+      "Monitoring score",
+      "Configuration score"
+    ],
+    "corrects": [0]
+  },
+  {
+    "text": "Which roles are required to configure the form layout using Table Builder? (select two)",
+    "options": [
+      "read_only_user",
+      "it_support_specialist",
+      "app_engine_admin",
+      "admin",
+      "personalize_form"
+    ],
+    "corrects": [3, 4]
+  },
+  {
+    "text": "What action can be performed by selecting the Additional actions menu in Table Builder?",
+    "options": [
+      "Schedule a job",
+      "Duplicate the selected form view",
+      "Add a new module",
+      "Create a database index"
+    ],
+    "corrects": [1]
+  },
+  {
+    "text": "What is the primary purpose of Form Builder in the Now Platform?",
+    "options": [
+      "To create new tables within the platform",
+      "To generate analytical reports from data tables",
+      "To configure system settings and permissions",
+      "To edit forms used for populating records"
+    ],
+    "corrects": [3]
+  },
+  {
+    "text": "Which components are the customer’s responsibility according to the Shared Responsibility Model? (select two)",
+    "options": [
+      "Infrastructure management",
+      "Authentication and authorization",
+      "Media disposal and destruction",
+      "Data encryption at rest",
+      "Backup and restore"
+    ],
+    "corrects": [1, 3]
+  },
+  {
+    "text": "Which kind of table has a name that starts with this prefix x_ ?",
+    "options": [
+      "Scoped application table",
+      "Excluded table",
+      "Explanation table",
+      "System table"
+    ],
+    "corrects": [0]
+  },
+  {
+    "text": "what tool allows you to drag and drop to specify links between source fields on an import set table and destination fields on any service now table?",
+    "options": [
+      "Mapping assist utility",
+      "import workspace",
+      "data source map",
+      "transform designer",
+      "import designer",
+      "transform dashboard"
+    ],
+    "corrects": [0]
+  },
+  {
+    "text": "An Administrator wants to review all the users having privileged access to identify and then mitigate related access risks. Which Security Center feature can help fulfill this",
+    "options": [
+      "Security posture console",
+      "Security hardening",
+      "Security scanner",
+      "Customer actions"
+    ],
+    "corrects": [0]
+  },
+  {
+    "text": "An administrator needs to quickly verify the current ServiceNow release version (e.g., Zurich) running on their instance. If they do not want to navigate through the menus, what command can be typed directly into the Filter Navigator to display this information?",
+    "options": [
+      "version.do",
+      "system.upgraded",
+      "stats.do",
+      "release.config"
+    ],
+    "corrects": [2]
+  },
+  {
+    "text": "using the module. system properties> my company. what branding options are available?",
+    "options": [
+      "banner image, banner text, colour scheme",
+      "company name, company logo",
+      "banner image, banner text",
+      "company name, company logo, colour scheme"
+    ],
+    "corrects": [2]
+  },
+  {
+    "text": "Which Security Center feature helps resolve platform related security issues and misconfigurations?",
+    "options": [
+      "Best practices",
+      "Customer actions",
+      "Security hardening",
+      "Security scanner"
+    ],
+    "corrects": [3]
+  },
+  {
+    "text": "Which options are available in the Data Visualization configuration panel, for how the data will be presented? (Choose two.)",
+    "options": [
+      "Time maps",
+      "Data sources",
+      "Configuration items",
+      "Chart mapping.",
+      "Metric"
+    ],
+    "corrects": [1, 4]
+  },
+  {
+    "text": "A Security Administrator wants to grant a user the ability to monitor security metrics and review hardening compliance scores without giving them full system administrator privileges. Which roles would allow the user to view the Security Center? (Choose two.)",
+    "options": [
+      "admin",
+      "sn_vsc.security_center_viewer",
+      "itil_admin",
+      "security_dashboard_user"
+    ],
+    "corrects": [0, 1]
+  },
+  {
+    "text": "As administrator, what must you do to access features of High Security Settings?",
+    "options": [
+      "Impersonate Security Admin",
+      "Select Elevate Roles",
+      "Add security admin role to your user account",
+      "Use System Administration > Elevate Roles module"
+    ],
+    "corrects": [2]
+  },
+  {
+    "text": "What section on the notes tab, shows the history of the work documented on the record?",
+    "options": [
+      "Audit Log",
+      "Timeline",
+      "Journal",
+      "Diary",
+      "Activity"
+    ],
+    "corrects": [4]
+  },
+  {
+    "text": "On Access Control Definitions, what are ways you can set the permissions on a Table? (Choose three.)",
+    "options": [
+      "Conditional Expressions",
+      "Roles",
+      "CRUD",
+      "Script that sets the answer variable to true or false",
+      "Groups"
+    ],
+    "corrects": [0, 1, 3]
+  },
+  {
+    "text": "Which best describes a field in a ServiceNow table?",
+    "options": [
+      "Afieldis a table row.",
+      "A field is an item that appears in a menu list.",
+      "A field is a table cell that stores data.",
+      "A field is a record in a table."
+    ],
+    "corrects": [2]
+  },
+  {
+    "text": "An order for new office equipment has been placed through the Service Catalog. How would you view the lists of requests after the orders have been placed?",
+    "options": [
+      "All > Tables and Columns > Tasks",
+      "In the Navigation Filter, type “requests.list\" and press the Enter key",
+      "All > Service Catalog > Requests",
+      "All > Service Catalog > Open Records > Items"
+    ],
+    "corrects": [3]
+  },
+  {
+    "text": "An order from the Service Catalog has been placed. Two records in the Platform are created as a result. Which two records are associated with this newly ordered item? (Choose two.)",
+    "options": [
+      "A record of sc_req_item table",
+      "A record of sc_task",
+      "An incident record",
+      "A change record",
+      "A problem record"
+    ],
+    "corrects": [0, 1]
+  },
+  {
+    "text": "What capability allows users to create dashboards with widgets to visualize data over time in order to identify areas of improvement?",
+    "options": [
+      "Scheduled Reports",
+      "Performance Analytics",
+      "Analytics Reports",
+      "Reporting"
+    ],
+    "corrects": [1]
+  },
+  {
+    "text": "If you have the Impersonate role what type of user are you not able to impersonate?",
+    "options": [
+      "Catalog User",
+      "Customer",
+      "System Administrator",
+      "VIP",
+      "Approver"
+    ],
+    "corrects": [2]
+  },
+  {
+    "text": "A customer wants to be able to identify and track components of their infrastructure that support their eECommerce service. What ServiceNow products could support this requirement? (Choose three.)",
+    "options": [
+      "Asset Management",
+      "Discovery",
+      "Configuration Management (CMDB)",
+      "Service Mapping",
+      "Performance Analytics"
+    ],
+    "corrects": [1, 2, 3]
+  },
+  {
+    "text": "What setting allows users to view a Knowledge Base article even if they are not logged in?",
+    "options": [
+      "The Public setting",
+      "The View All setting",
+      "The ESS role",
+      "The Allow All role"
+    ],
+    "corrects": [0]
+  },
+  {
+    "text": "Which feature helps to automatically allocate a critical, high-priority, service request to the appropriate assignment group or team member?",
+    "options": [
+      "Assignment Rule",
+      "User Policy",
+      "Predictive Intelligence",
+      "UI Policy"
+    ],
+    "corrects": [0]
+  },
+  {
+    "text": "How is the ServiceNow platform set up so that Administrators can easily configure their instances to send an email at the end of an upgrade?",
+    "options": [
+      "Administrators can update the email notification named \"System Upgraded\" in the System Logs module by adding the appropriate User to receive it.",
+      "Administrators can update the email notification named \"System Upgraded\" in the Notifications module by adding the appropriate User to receive it.",
+      "Administrators can write a Client Script to send out an email to the Administrator when an Update is complete.",
+      "Administrators can write a Business Rule to send out an email to the Administrator when an Update is complete."
+    ],
+    "corrects": [1]
+  },
+  {
+    "text": "Which roles are required to configure the form layout using Table Builder?",
+    "options": [
+      "read_only_user",
+      "it_support_specialist",
+      "app_engine_admin",
+      "admin",
+      "personalize_form"
+    ],
+    "corrects": [3, 4]
+  },
+  {
+    "text": "A new employee joins the IT department and needs to perform work assigned to Network and Hardware groups. How would you set up their access? (Choose three.)",
+    "options": [
+      "Add User Account to Hardware group",
+      "Add User Account to IT Knowledgebase",
+      "Create User Account",
+      "Add User Account to itil group",
+      "Add User Account to Network group",
+      "Add User Account to ACL"
+    ],
+    "corrects": [0, 2, 4]
   }
+
 ]
