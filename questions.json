@@ -651,7 +651,7 @@
       "Global",
       "Admin",
       "Analytics",
-      "I",
+      "All",
       "Company"
     ],
     "corrects": [0, 2, 5, 8]
@@ -1272,17 +1272,6 @@
     "corrects": [0, 2, 3]
   },
   {
-    "text": "What are the main components of the form design interface? Choose 3 answers?",
-    "options": [
-      "field picker",
-      "field layout",
-      "form layout",
-      "page header",
-      "field navigator"
-    ],
-    "corrects": [0, 3, 4]
-  },
-  {
     "text": "Which tool is used to define relationship between fields in an imports Set table and a target table?",
     "options": [
       "schema map",
@@ -1322,5 +1311,176 @@
       "specific to general: table ACL, parent table ACL, wildcard(*) ACL"
     ],
     "corrects": [4]
+  },
+  {
+    "text": "What would you do, on a list, if you wanted to show the records in groups, based on the column category? (Choose two.)",
+    "options": [
+      "Click Group On icon, select Category",
+      "On Navigator Filter, type tablename.group.category and press enter",
+      "On the Category column title, click Context menu > Group By Category",
+      "On list Context Menu, select Group By > Category",
+      "On the Filter Menu, select Group By > Category"
+    ],
+    "corrects": [2, 3]
+  },
+  {
+    "text": "An IT manager is responsible for the Network and Hardware assignment groups, each group contains 5 team members. These team members are working on many tasks, but the manager cannot see any tasks on the Service Desk > My Groups Work list. What could explain this?",
+    "options": [
+      "The manager does not have the itil role.",
+      "The Assignment Group manager field is empty.",
+      "The manager is not a member of the Service Desk group.",
+      "The manager is not a member of the Network and Hardware groups."
+    ],
+    "corrects": [3]
+  },
+  {
+    "text": "Which module in the Service Catalog application is used to create a new catalog item?",
+    "options": [
+      "Maintain Items",
+      "Content Items",
+      "Catalog Items",
+      "Configuration Items"
+    ],
+    "corrects": [0]
+  },
+  {
+    "text": "What attributes can you manage, using System Properties > Basic Configuration UI16? (Choose five.)",
+    "options": [
+      "Base theme",
+      "Banner Image",
+      "Preferred browser",
+      "Font style",
+      "Header background color",
+      "Module text color",
+      "Browser tab title",
+      "Animation style"
+    ],
+    "corrects": [0, 1, 4, 5, 6]
+  },
+  {
+    "text": "Which tables are children of the Task table and come with the base system? (Choose three.)",
+    "options": [
+      "Change Request",
+      "Problem",
+      "Config",
+      "Incident",
+      "Dictionary",
+      "cmdb"
+    ],
+    "corrects": [0, 1, 3]
+  },
+  {
+    "text": "You have been asked to configure a form so an employee could order tablet and select the standard accessory options to purchase with it. These standard options are: carrying case, screen cleaner, tablet stand, and screen protector. What approach would you take? (Choose three.)",
+    "options": [
+      "Create Catalog Item for the tablet, and on the form, add a check box variable for each accessory option.",
+      "Create Catalog Item for the Tablet, and add a variable set to the form, for the accessory options.",
+      "Create a Record producer, and on the form, add a check box variable for each accessory option.",
+      "On Shopping Cart configuration, select option to show the Add Accessories button.",
+      "Create one Catalog item for each: tablet, carrying case, screen cleaner, tablet stand, and screen protector."
+    ],
+    "corrects": [0, 1, 4]
+  },
+  {
+    "text": "What is the purpose of an application scope?",
+    "options": [
+      "Scope prevents applications from changing their own tables and business logic",
+      "Scope determines all applications access each other's tables and business logic",
+      "Scope determines the functionality of core services in the platform",
+      "Scope determines which parts of an application are available for use by other applications in ServiceNow"
+    ],
+    "corrects": [3]
+  },
+  {
+    "text": "A user is complaining that they are seeing a blank page, when they click Create New, from your custom Inventory application. You have confirmed that they can see the Inventory application, and the Create New module on the application navigator. What could be the cause of this issue?",
+    "options": [
+      "Create New module has a broken link",
+      "User has read role, but not the write role on the Inventory table",
+      "Known intermittent issue with UI15",
+      "User session has timed out",
+      "User should be using Chrome instead of Explorer for their browser"
+    ],
+    "corrects": [1]
+  },
+  {
+    "text": "Which type of tables may be extended by other tables, but do not extend another table?",
+    "options": [
+      "Custom Tables",
+      "Extended Tables",
+      "Core Tables",
+      "Base Tables"
+    ],
+    "corrects": [3]
+  },
+  {
+    "text": "When managing tags, you can adjust who is able to see it. What are the visibility options? (Choose three.)",
+    "options": [
+      "Groups and Users",
+      "Everyone",
+      "Roles and Permissions",
+      "Me",
+      "Admins"
+    ],
+    "corrects": [0, 1, 3]
+  },
+  {
+    "text": "When designing a flow, how do you reference data from a record, in that flow?",
+    "options": [
+      "Add the table reference using the slush bucket",
+      "Use the condition builder to specify the desired values",
+      "Drag the data pill onto the flow definition",
+      "Drag the table icon onto the flow definition",
+      "Specify the source table on the data pill related list"
+    ],
+    "corrects": [2]
+  },
+  {
+    "text": "Which ServiceNow utility gives a Service Desk agent the ability to trace from a Service having an issue, to see which CIs supporting that service have active issues?",
+    "options": [
+      "Event Management Homepage",
+      "Service Dashboard",
+      "CI Dependency View",
+      "CI Health Dashboard"
+    ],
+    "corrects": [2]
+  },
+  {
+    "text": "Which element is used to track items not saved with a field, in a record?",
+    "options": [
+      "Sidebar",
+      "List Editor",
+      "Activity formatter",
+      "Dictionary"
+    ],
+    "corrects": [2]
+  },
+  {
+    "text": "Two departments (HR Onboarding and Facilities) have come to you, asking for a way for employees to request event room set up services. The requirements are the same for the form and the task routing to the Facilities' assignment group. For HR, the item will be used primarily for the Onboarding coordinators, for employee orientation sessions. For Facilities, the item will be used for anyone in the company who needs room set up services. However, both departments have their own service catalogs. What do you do, to support these requirements?",
+    "options": [
+      "Create one Catalog Item for Event Room Set Up; then publish to the Parent Catalog, which is accessible to both HR and Facilities.",
+      "Create one Catalog Item for Event Room Set Up; then use ACLs to control access.",
+      "Create one Catalog Item for HR Event Room Set Up and one for Facilities Event Room Set Up; then publish each to the appropriate Catalog.",
+      "Create one Catalog Item for Event Room Set Up; then publish to both Catalogs."
+    ],
+    "corrects": [3]
+  },
+  {
+    "text": "Which one of the following statements is true about Column Context Menus?",
+    "options": [
+      "It displays actions related to viewing and filtering the entire list",
+      "It displays actions related to filtering options, assigning tags, and search",
+      "It displays actions such as view form, view related task, and add relationship",
+      "It displays actions such as creating quick reports, configuring the list, and exporting data"
+    ],
+    "corrects": [3]
+  },
+  {
+    "text": "What are the steps for importing data using an import set?",
+    "options": [
+      "Create a Transform Map, Load Data, Transform Data, Run Transform Map Script",
+      "Create Import Set; Create transform map; Transform data; Clean up import table",
+      "Identify source; Import transform map; Run transformer; Verify import",
+      "Select source file; Run AutoMap; Transform data; Clean up target table"
+    ],
+    "corrects": [1]
   }
 ]

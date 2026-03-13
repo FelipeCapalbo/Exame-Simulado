@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
-  <title>Simulador de Questões</title>
+  <title>Simulador de Questões Profissional</title>
   <style>
     .selected { border-color: #3b82f6 !important; background-color: #eff6ff !important; }
     .is-correct { border-color: #22c55e !important; background-color: #f0fdf4 !important; }
@@ -18,6 +18,7 @@
   <div id="setupScreen" class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md border border-slate-100">
     <h1 class="text-2xl font-black text-slate-800 mb-6 text-center uppercase tracking-tighter">Exame Simulado</h1>
     <div id="statusIndicator" class="mb-6 p-4 bg-blue-50 text-blue-700 rounded-2xl text-center text-sm font-bold">Carregando questões...</div>
+    
     <div id="configSection" class="hidden fade-in space-y-4">
       <div class="bg-slate-100 p-4 rounded-2xl text-center">
         <span id="qCount" class="text-2xl font-black text-slate-700">0</span>
@@ -46,6 +47,7 @@
 
   <div id="resultScreen" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
     <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-sm text-center fade-in">
+      <div id="resultIcon" class="text-5xl mb-4">🏆</div>
       <h2 class="text-2xl font-black text-slate-800 mb-2">Simulado Finalizado!</h2>
       <p class="text-slate-500 mb-6">Você acertou <span id="finalScore" class="font-bold text-blue-600">0</span> de <span id="finalTotal">0</span> questões (<span id="finalPercent">0</span>%).</p>
       
@@ -59,13 +61,12 @@
   <script>
     let allQuestions = [];
     let examList = [];
-    let wrongQuestions = []; // LISTA DE ERROS
+    let wrongQuestions = [];
     let currentPos = 0;
     let score = 0;
     let userSelections = new Set();
     let isValidated = false;
 
-    // ... (Mantive suas funções loadDatabase, isValidQuestion e shuffleArray iguais) ...
     async function loadDatabase() {
       const statusIndicator = document.getElementById('statusIndicator');
       try {
@@ -83,16 +84,22 @@
       }
     }
 
-    function isValidQuestion(question) {
-      return (question && typeof question.text === 'string' && Array.isArray(question.options) && Array.isArray(question.corrects));
+    function isValidQuestion(q) {
+      return q && q.text && Array.isArray(q.options) && Array.isArray(q.corrects);
     }
 
     function shuffleArray(array) {
-      return [...array].sort(() => Math.random() - 0.5);
+      const copy = [...array];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
     }
 
     function startExam() {
-      const qty = Math.min(parseInt(document.getElementById('qtyInput').value) || 1, allQuestions.length);
+      const qtyInput = document.getElementById('qtyInput');
+      const qty = Math.min(parseInt(qtyInput.value) || 1, allQuestions.length);
       examList = shuffleArray(allQuestions).slice(0, qty);
       initSession();
     }
@@ -100,7 +107,7 @@
     function initSession() {
       currentPos = 0;
       score = 0;
-      wrongQuestions = []; // Reseta erros no início de uma nova sessão
+      wrongQuestions = [];
       document.getElementById('hits').innerText = score;
       document.getElementById('setupScreen').classList.add('hidden');
       document.getElementById('resultScreen').classList.add('hidden');
@@ -112,35 +119,50 @@
       isValidated = false;
       userSelections.clear();
       const q = examList[currentPos];
+
+      // Embaralhamento das alternativas com preservação do índice original
+      let shuffledOptions = q.options.map((text, index) => ({ text, originalIndex: index }));
+      shuffledOptions = shuffleArray(shuffledOptions);
+
       document.getElementById('progressLabel').innerText = `Questão ${currentPos + 1}/${examList.length}`;
       document.getElementById('questionBody').innerText = q.text;
       document.getElementById('feedback').innerText = '';
+      
       const actionBtn = document.getElementById('actionBtn');
       actionBtn.innerText = 'CHECAR RESPOSTA';
       actionBtn.className = 'w-full bg-slate-800 text-white py-4 rounded-2xl font-bold hover:bg-black transition-all shadow-md';
       
       const optionsList = document.getElementById('optionsList');
       optionsList.innerHTML = '';
-      q.options.forEach((opt, i) => {
+
+      shuffledOptions.forEach((opt) => {
         const btn = document.createElement('button');
-        btn.className = 'option-btn w-full p-5 text-left border-2 border-slate-100 rounded-2xl transition-all flex items-center bg-white';
-        btn.innerHTML = `<div class="check-box w-6 h-6 border-2 border-slate-200 rounded mr-4 flex items-center justify-center text-xs font-bold shrink-0"></div><span>${opt}</span>`;
-        btn.onclick = () => toggleOption(i, btn);
+        btn.className = 'option-btn w-full p-5 text-left border-2 border-slate-100 rounded-2xl transition-all flex items-center bg-white group';
+        btn.dataset.originalIndex = opt.originalIndex; // Guarda a resposta correta aqui
+        
+        btn.innerHTML = `
+          <div class="check-box w-6 h-6 border-2 border-slate-200 rounded mr-4 flex items-center justify-center text-xs font-bold shrink-0 transition-colors"></div>
+          <span class="text-slate-700 font-medium">${opt.text}</span>
+        `;
+        
+        btn.onclick = () => toggleOption(opt.originalIndex, btn);
         optionsList.appendChild(btn);
       });
     }
 
-    function toggleOption(index, element) {
+    function toggleOption(originalIndex, element) {
       if (isValidated) return;
-      const box = element.querySelector('.check-box');
-      if (userSelections.has(index)) {
-        userSelections.delete(index);
+
+      if (userSelections.has(originalIndex)) {
+        userSelections.delete(originalIndex);
         element.classList.remove('selected');
+        const box = element.querySelector('.check-box');
         box.className = 'check-box w-6 h-6 border-2 border-slate-200 rounded mr-4 flex items-center justify-center text-xs font-bold shrink-0';
         box.innerText = '';
       } else {
-        userSelections.add(index);
+        userSelections.add(originalIndex);
         element.classList.add('selected');
+        const box = element.querySelector('.check-box');
         box.className = 'check-box w-6 h-6 border-2 border-blue-500 bg-blue-500 text-white rounded mr-4 flex items-center justify-center text-xs font-bold shrink-0';
         box.innerText = '✓';
       }
@@ -152,28 +174,32 @@
     }
 
     function validate() {
-      if (userSelections.size === 0) return alert('Selecione uma opção.');
+      if (userSelections.size === 0) return alert('Selecione pelo menos uma opção.');
+      
       isValidated = true;
       const q = examList[currentPos];
-      const userArr = Array.from(userSelections).sort();
-      const correctArr = [...q.corrects].sort();
+      
+      const userArr = Array.from(userSelections).sort((a,b) => a-b);
+      const correctArr = [...q.corrects].sort((a,b) => a-b);
       const isCorrect = JSON.stringify(userArr) === JSON.stringify(correctArr);
 
       if (isCorrect) {
         score++;
         document.getElementById('hits').innerText = score;
       } else {
-        wrongQuestions.push(q); // ADICIONA À LISTA DE ERROS
+        wrongQuestions.push(q);
       }
 
-      document.querySelectorAll('.option-btn').forEach((btn, i) => {
+      document.querySelectorAll('.option-btn').forEach((btn) => {
         btn.disabled = true;
+        const idx = parseInt(btn.dataset.originalIndex);
         const box = btn.querySelector('.check-box');
-        if (q.corrects.includes(i)) {
+
+        if (q.corrects.includes(idx)) {
           btn.classList.add('is-correct');
           box.className = 'check-box w-6 h-6 bg-green-500 text-white rounded mr-4 flex items-center justify-center text-xs font-bold shrink-0';
           box.innerText = '✓';
-        } else if (userSelections.has(i)) {
+        } else if (userSelections.has(idx)) {
           btn.classList.add('is-wrong');
           box.className = 'check-box w-6 h-6 bg-red-500 text-white rounded mr-4 flex items-center justify-center text-xs font-bold shrink-0';
           box.innerText = '✕';
@@ -205,7 +231,6 @@
       document.getElementById('finalPercent').innerText = percent;
       
       const retryBtn = document.getElementById('retryWrongBtn');
-      // Só mostra o botão de refazer se houver erros
       if (wrongQuestions.length > 0) {
         retryBtn.classList.remove('hidden');
         retryBtn.innerText = `REFAZER ERRADAS (${wrongQuestions.length})`;
